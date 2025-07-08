@@ -38,3 +38,7 @@ def execute_code(code: str) -> dict:
         output['error'] = str(e)
     finally:
         return output
+
+
+if __name__ == '__main__':
+    mcp.run()
