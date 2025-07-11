@@ -1,4 +1,4 @@
-from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP, Context
 
 
 mcp = FastMCP(name = 'Code Interpreter", "1.0.0", "A simple code interpreter that executes Python code and returns the result.',
@@ -15,7 +15,7 @@ mcp = FastMCP(name = 'Code Interpreter", "1.0.0", "A simple code interpreter tha
 
 
 @mcp.tool('execute_code')
-def execute_code(code: str) -> dict:
+def execute_code(code: str, ctx: Context) -> dict:
     """
     Executes the provided Python code and returns the result.
     
@@ -25,6 +25,8 @@ def execute_code(code: str) -> dict:
     Returns:
         dict: A dictionary containing the result or an error message.
     """
+    with open('context.txt','w') as f:
+        f.write(str(ctx))
     output = {
         'error': None,
         'result': None,
