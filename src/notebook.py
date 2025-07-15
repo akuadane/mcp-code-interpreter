@@ -1,46 +1,57 @@
-import nbformat as nbf
-from nbclient import NotebookClient
+from jupyter_client import KernelManager
+from jupyter_client.blocking.client import BlockingKernelClient
 
-class Notebooks:
-    def __init__(self):
-        self.nb_clients = {}
-
-    
-    async def execute_new_code(self,code, session_id):
-        if not self.nb_clients.get(session_id):
-            nb = nbf.v4.new_notebook()
-            client = NotebookClient(nb, kernel_name = "kernel_name='python3'")
-            client.nb = nb
-            async with client.async_setup_kernel():
-                print("setting up the kernel")
-                self.nb_clients[session_id] = client
-
-        new_cell = nbf.v4.new_code_cell(code)
-        client.nb['cells'].append(new_cell)
-        index_of_cell = len(client.nb['cells'])-1
-        await client.async_execute_cell(new_cell,index_of_cell )
-
-        results = []
-        errors = []
-        for output in new_cell.get("outputs", []):
-            if output.output_type == "stream":
-                results.append(output.text)
-            elif output.output_type == "execute_result":
-                results.append(output.data.get("text/plain", ""))
-            elif output.output_type == "error":
-                errors.append("Error:", output.evalue)        
+class Notebook:
+    def __init__(self, session_id):
+        self.kernel =  KernelManager()
+        self.kernel.start_kernel()
         
-        return {"errors": errors, "results":results}
+        self.client = BlockingKernelClient(connection_file=self.kernel.connection_file)
+        self.client.load_connection_file()
+        self.client.start_channels()
+        self.client.wait_for_ready(timeout=5) 
+
+        self.session_id = session_id
+
+        self.history = []
+    
+    def execute_new_code(self,code):
+        self.history.append(code)
+        result = []
+        error = []
+        def output_callback(msg):
+            if msg['msg_type'] == 'stream':
+                result.append(msg['content']['text'])
+            elif msg['msg_type'] == 'execute_result':
+                result.append(f"Execution Result: {msg['content']['data']['text/plain']}")
+            elif msg['msg_type'] == 'error':
+                error.append(f"Error: {msg['content']['ename']}: {msg['content']['evalue']}")
+        
+        
+        self.client.execute_interactive(
+            code=code,
+            output_hook=output_callback,
+            stop_on_error=True  # Optional: stop if an error occurs
+        )       
+       
+        return {"error": error, "result":result}
     
     def dump_to_file(self):
-        for session_id, client in self.nb_clients.items():
-            with open('f{session_id}.ipynb') as f:
-                nbf.write(client.nb,f)
+        with open(f'{self.session_id}.txt','w') as f:
+            for code in self.history:
+                f.write(code+'\n')
 
-    # TODO load from file
+    def load_from_file(self):
+        try:
+            with open(f'{self.session_id}.txt') as f:
+                code = f.read()
+                self.execute_new_code(code)
+        except:
+            print("Can't open file.")
 
     # TODO abstract out creating a new client
-    
+    def close(self):
+        self.kernel.shutdown_kernel()
 
 
 
