@@ -2,20 +2,17 @@ import time
 from mcp.server.fastmcp import FastMCP, Context
 from notebook import Notebook
 
+
 mcp = FastMCP(name = 'Code Interpreter", "2.0.0", "A simple code interpreter that executes Python code and returns the result.',
               instructions= """
                 You can execute Python code by sending a request with the code you want to run.
-                Make sure to include the `result` variable in your code to return the output.
-                For example:
-                ```python
-                x = 10
-                y = 20
-                result = x + y
+                Think of this tool as a jupyter notebook. It will remember your previously executed code, if you pass in your session_id. 
+                It is crucial to remember your session_id for a smooth interaction.
                 ```
                 )""")
 notebook = None
 
-@mcp.tool('execute_code: 2.0.0')
+@mcp.tool('execute_code')
 async def execute_code(code: str,ctx: Context, session_id: int = 0) -> dict:
     global notebook
     """
@@ -31,15 +28,21 @@ async def execute_code(code: str,ctx: Context, session_id: int = 0) -> dict:
     Returns:
         dict: A dictionary containing the result or an error message.
     """
+    session_info = None
     if session_id==0 or (notebook and notebook.session_id!=session_id):
         session_id = int(time.time())
         notebook = Notebook(session_id)
-        await ctx.info(f"Your session_id for this chat is {session_id}. You should provide it for subsequent requests.")
+        session_info = f"Your session_id for this chat is {session_id}. You should provide it for subsequent requests."
 
     try:
-        return notebook.execute_new_code(code)
+        result = notebook.execute_new_code(code)
+        if session_info:
+            result['result'].append(session_info)
+        
+        return result 
     except Exception as e:
         return {'error':str(e), 'result':[] }
+
 
 
 if __name__ == '__main__':
