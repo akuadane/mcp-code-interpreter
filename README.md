@@ -18,3 +18,8 @@ Run the following commands on your terminal and at the root of this repository.
 - `uv pip install .`
 - `uv run mcp dev src/server.py` ( to launch the web interface to play with the available tools)
 - `uv run mcp install src/server.py` ( to install it to Claude desktop)
+
+
+## Future work
+- Multiple Sessions
+- File upload 
