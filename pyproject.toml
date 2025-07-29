@@ -5,5 +5,11 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "asyncio>=3.4.3",
+    "ipykernel>=6.29.5",
+    "jupyter-client>=8.6.3",
     "mcp[cli]>=1.10.1",
+    "nbclient>=0.10.2",
+    "nbformat>=5.10.4",
+    "nest-asyncio>=1.6.0",
 ]
