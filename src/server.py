@@ -22,17 +22,9 @@ mcp = FastMCP(name = 'Code Interpreter", "2.0.0", "A simple code interpreter tha
                 )""")
 sessions = {}
 
-@mcp.tool('execute_code', description='''Executes the provided Python code, saves code for future use and returns the result.
-    
-    Args:
-        code (str): The Python code to execute.
-        session_id (int, optional): A unique identifier used to associate multiple code execution requests
-            with the same logical session. If this is the first request, you may omit it or set it to 0.
-            The system will generate and return a new session_id, which should be reused in follow-up requests
-            to maintain continuity within the same session. You don't need to repeat previous code to access it, just use the variables define earlier.
-    
-    Returns:
-        dict: A dictionary containing the result or an error message.''' )
+@mcp.tool('execute_code', description='''Executes the provided Python code and saves it for future use.
+            Use this tool to run Python code. It's like a Jupyter notebook session, previously run code, including imports, are stored and doesn't have to be repeated.
+            The system will generate and return a new session_id, which should be reused in follow-up requests.''' )
 
 async def execute_code(code: str,ctx: Context, session_id: int = 0) -> dict:
     global sessions
