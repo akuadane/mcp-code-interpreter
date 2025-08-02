@@ -12,7 +12,7 @@ WORKDIR /app
 COPY pyproject.toml .
 COPY README.md .
 COPY uv.lock .
-COPY src/ .
+COPY src/ src/
 
 
 # RUN uv add "mcp[cli]"
