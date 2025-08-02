@@ -12,7 +12,7 @@ WORKDIR /app
 COPY pyproject.toml .
 COPY README.md .
 COPY uv.lock .
-COPY src/ src/
+COPY src/ .
 
 
 # RUN uv add "mcp[cli]"
@@ -29,4 +29,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE 8000
 
-CMD ["python", "src/server.py"]
+CMD ["python", "server.py"]
