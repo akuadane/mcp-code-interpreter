@@ -21,5 +21,4 @@ Run the following commands on your terminal and at the root of this repository.
 
 
 ## Future work
-- Multiple Sessions
 - File upload 
