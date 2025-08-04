@@ -503,6 +503,7 @@ dependencies = [
     { name = "nbclient" },
     { name = "nbformat" },
     { name = "nest-asyncio" },
+    { name = "python-dotenv" },
 ]
 
 [package.metadata]
@@ -514,6 +515,7 @@ requires-dist = [
     { name = "nbclient", specifier = ">=0.10.2" },
     { name = "nbformat", specifier = ">=5.10.4" },
     { name = "nest-asyncio", specifier = ">=1.6.0" },
+    { name = "python-dotenv", specifier = ">=1.0.0" },
 ]
 
 [[package]]

@@ -12,6 +12,7 @@ load_dotenv(dotenv_path=env_path)
 notebooks_folder_name = os.getenv('NOTEBOOKS_FOLDER')
 notebooks_folder = parent_folder / notebooks_folder_name
 
+notebooks_folder.mkdir(exist_ok=True)
 
 mcp = FastMCP(name = 'Code Interpreter", "2.0.0", "A simple code interpreter that executes Python code and returns the result.',
               instructions= """

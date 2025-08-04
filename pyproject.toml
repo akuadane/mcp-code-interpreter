@@ -12,4 +12,5 @@ dependencies = [
     "nbclient>=0.10.2",
     "nbformat>=5.10.4",
     "nest-asyncio>=1.6.0",
+    "python-dotenv>=1.0.0",
 ]
