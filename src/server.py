@@ -23,8 +23,7 @@ mcp = FastMCP(name = 'Code Interpreter", "2.0.0", "A simple code interpreter tha
                 )""")
 sessions = {}
 
-@mcp.tool('execute_code', description='''Executes the provided Python code and saves it for future use.
-            Use this tool to run Python code. It's like a Jupyter notebook session, previously run code, including imports, are stored and doesn't have to be repeated.
+@mcp.tool('execute_code', description='''Executes the provided Python code and saves it for future use. Use this tool to run Python code. It's like a Jupyter notebook session, previously run code, including imports, are stored and doesn't have to be repeated.
             The system will generate and return a new session_id, which should be reused in follow-up requests.''' )
 
 async def execute_code(code: str,ctx: Context, session_id: int = 0) -> dict:
@@ -60,8 +59,6 @@ async def execute_code(code: str,ctx: Context, session_id: int = 0) -> dict:
             result['result'].append(session_info)
         if len(result['error'])==0:
             notebook.dump_to_file()
-            result['result'].append(notebooks_folder)
-            result['result'].append(os.listdir(notebooks_folder))
         return result 
     except Exception as e:
         return {'error':[str(e)], 'result':[] }
