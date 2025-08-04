@@ -26,8 +26,6 @@ RUN uv venv && \
 # Ensure venv binaries are available in PATH
 ENV PATH="/app/.venv/bin:$PATH"
 
-VOLUME ["/app/notebooks"]
-
 EXPOSE 8000
 
 CMD ["python", "server.py"]
