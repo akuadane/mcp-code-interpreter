@@ -60,6 +60,7 @@ async def execute_code(code: str,ctx: Context, session_id: int = 0) -> dict:
             result['result'].append(session_info)
         if len(result['error'])==0:
             notebook.dump_to_file()
+            result['result'].append('Tried saving to folder.')
         return result 
     except Exception as e:
         return {'error':[str(e)], 'result':[] }
