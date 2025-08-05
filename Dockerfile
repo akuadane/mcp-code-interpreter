@@ -21,7 +21,7 @@ COPY src/ .
 # Install dependencies using uv
 RUN uv venv && \
     uv pip install "mcp[cli]" && \
-    uv sync --locked
+    uv pip sync pyproject.toml  
 
 # Ensure venv binaries are available in PATH
 ENV PATH="/app/.venv/bin:$PATH"
