@@ -20,7 +20,6 @@ COPY src/ .
 
 # Install dependencies using uv
 RUN uv venv && \
-    uv pip install "mcp[cli]" && \
     uv sync --locked
 
 # Ensure venv binaries are available in PATH
