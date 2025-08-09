@@ -27,4 +27,9 @@ https://github.com/user-attachments/assets/1ec51325-f27d-4264-84fd-e605a209892e
 
 
 ## Future work
-- File upload 
+- File upload
+
+#### In case of any security issues, please report them to: akayou.a.kitessa@gmail.com
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/akuadane/mcp-code-interpreter/blob/main/LICENSE) file for details.
