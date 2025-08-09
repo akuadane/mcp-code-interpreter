@@ -25,7 +25,7 @@ sessions = {}
 
 @mcp.tool('execute_code', description='''Executes Python code within a persistent session, retaining past results (e.g., variables, imports). Similar to a Jupyter notebook. A session_id is returned on first use and must be included in subsequent requests to maintain context.''' )
 
-async def execute_code(code: str,ctx: Context, session_id: int = 0) -> dict:
+async def execute_code(code: str, session_id: int = 0) -> dict:
     global sessions
     """
     Executes the provided Python code and returns the result.
